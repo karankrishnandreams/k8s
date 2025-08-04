@@ -9,7 +9,7 @@
 /chat-service/node_modules/
 /call-service/node_modules/
 # Environment variables
-.env
+#env
 .env.me
 .env.*.local
 .env.localrun
