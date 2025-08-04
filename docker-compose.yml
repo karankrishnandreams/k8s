@@ -1,0 +1,183 @@
+version: "3.8"
+
+services:
+  kong-db:
+    image: postgres:9.6
+    container_name: kong-db
+    restart: always
+    environment:
+      POSTGRES_DB: fusion_master
+      POSTGRES_USER: kong
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - kong-db-data:/var/lib/postgresql/data
+
+  kong:
+    image: kong:3.6
+    container_name: kong
+    environment:
+      KONG_DATABASE: off
+      KONG_DECLARATIVE_CONFIG: /kong/kong.yml
+      KONG_PROXY_ACCESS_LOG: /dev/stdout
+      KONG_ADMIN_ACCESS_LOG: /dev/stdout
+      KONG_PROXY_ERROR_LOG: /dev/stderr
+      KONG_ADMIN_ERROR_LOG: /dev/stderr
+      KONG_ADMIN_LISTEN: 0.0.0.0:8001, 0.0.0.0:8444 ssl
+    ports:
+      - "8000:8000"
+      - "8001:8001"
+      - "8444:8444"
+      - "8002:8002"
+      - "8443:8443"
+    volumes:
+      - ./kong/${KONG_DECLARATIVE_CONFIG:-kong.yml}:/kong/kong.yml
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  konga:
+    image: pantsel/konga:0.14.9
+    container_name: konga
+    restart: always
+    ports:
+      - "1337:1337"
+    environment:
+      DB_ADAPTER: postgres
+      DB_HOST: kong-db
+      DB_PORT: 5432
+      DB_USER: kong
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_DATABASE: fusion_master
+      NODE_ENV: production
+    depends_on:
+      - kong
+      - kong-db
+
+  user-service:
+    build:
+      context: ./user-service
+      dockerfile: ${DOCKERFILE:-Dockerfile.dev}
+    container_name: fusion-user-service
+    restart: always
+    ports:
+      - "${USER_SERVICE_PORT}:${USER_SERVICE_PORT}"
+    env_file:
+      - .env
+    volumes:
+      - ./user-service:/usr/src/app
+      - /usr/src/app/node_modules
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  email-service:
+    build:
+      context: ./email-service
+      dockerfile: ${DOCKERFILE:-Dockerfile.dev}
+    container_name: fusion-email-service
+    restart: always
+    ports:
+      - "${EMAIL_SERVICE_PORT}:${EMAIL_SERVICE_PORT}"
+    env_file:
+      - .env
+    volumes:
+      - ./email-service:/usr/src/app
+      - /usr/src/app/node_modules
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  subscription-service:
+    build:
+      context: ./subscription-service
+      dockerfile: ${DOCKERFILE:-Dockerfile.dev}
+    container_name: fusion-subscription-service
+    restart: always
+    ports:
+      - "${SUBSCRIPTION_SERVICE_PORT}:${SUBSCRIPTION_SERVICE_PORT}"
+    env_file:
+      - .env
+    volumes:
+      - ./subscription-service:/usr/src/app
+      - /usr/src/app/node_modules
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  people-service:
+    build:
+      context: ./people-service
+      dockerfile: ${DOCKERFILE:-Dockerfile.dev}
+    container_name: fusion-people-service
+    restart: always
+    ports:
+      - "${PEOPLE_SERVICE_PORT}:${PEOPLE_SERVICE_PORT}"
+    env_file:
+      - .env
+    volumes:
+      - ./people-service:/usr/src/app
+      - /usr/src/app/node_modules
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  application-service:
+    build:
+      context: ./application-service
+      dockerfile: ${DOCKERFILE:-Dockerfile.dev}
+    container_name: fusion-application-service
+    restart: always
+    ports:
+      - "${APPLICATION_SERVICE_PORT}:${APPLICATION_SERVICE_PORT}"
+    env_file:
+      - .env
+    volumes:
+      - ./application-service:/usr/src/app
+      - /usr/src/app/node_modules
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+  inventory-service:
+    build:
+      context: ./inventory-service
+      dockerfile: ${DOCKERFILE:-Dockerfile.dev}
+    container_name: fusion-inventory-service
+    restart: always
+    ports:
+      - "${INVENTORY_SERVICE_PORT}:${INVENTORY_SERVICE_PORT}"
+    env_file:
+      - .env
+    volumes:
+      - ./inventory-service:/usr/src/app
+      - /usr/src/app/node_modules
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  chat-service:
+    build:
+      context: ./chat-service
+      dockerfile: ${DOCKERFILE:-Dockerfile.dev}
+    container_name: fusion-chat-service
+    restart: always
+    ports:
+      - "${CHAT_SERVICE_PORT}:${CHAT_SERVICE_PORT}"
+    env_file:
+      - .env
+    volumes:
+      - ./chat-service:/usr/src/app
+      - /usr/src/app/node_modules
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  call-service:
+    build:
+      context: ./call-service
+      dockerfile: ${DOCKERFILE:-Dockerfile.dev}
+    container_name: fusion-call-service
+    restart: always
+    ports:
+      - "${CALL_SERVICE_PORT}:${CALL_SERVICE_PORT}"
+    env_file:
+      - .env
+    volumes:
+      - ./call-service:/usr/src/app
+      - /usr/src/app/node_modules
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+volumes:
+  kong-db-data:

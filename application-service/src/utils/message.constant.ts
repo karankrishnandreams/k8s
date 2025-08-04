@@ -1,0 +1,44 @@
+export const ERROR_MESSAGE = {
+    PASSWORD_MISMATCH: 'Password is not matching',
+    USER_NOT_FOUND: 'User not found',
+    NOTE_NOT_FOUND: 'Note not found',
+    INVALID_PASSWORD: 'Invalid password',
+    LOGIN_ERROR: 'Login error',
+    SUPERADMIN_ALREADY_EXIST: "Super admin already exists.",
+    SUPERADMIN_ENV_MISSING: "Missing required environment variables.",
+    SUPERADMIN_CREATE_ERROR: "Error creating super admin",
+    EMAIL_TEMPLATE_NOT_FOUND: "Email template not found",
+    COMPANY_RESTRICTED: 'You cant edit the plan name and plan type',
+    ERROR_WHILE_CREATE_COMPANY: "Error while Creating Company",
+    ERROR_WHILE_UPDATE_COMPANY: "Error while Updateing Company",
+    ERROR_WHILE_VIEW_COMPANY: 'Error while viewing Company',
+    COMPANY_NOT_FOUND: 'Company not found',
+    ERROR_WHILE_CREATE_TODO: "Error while Creating Todo",
+    TODO_NOT_FOUND: 'Todo not found',
+    ERROR_WHILE_UPDATE_TODO: "Error while Updating Todo",
+    TASK_FLOW_NOT_FOUND: "Taskflow not found",
+    TASK_FLOW_ALREADY_EXIST: "A taskflow with this name already exists."
+};
+
+export const SUCCESS_MESSAGE = {};
+
+export const INFO_MESSAGE = {
+    LOGIN_FUNCTION_STARTED: 'Login function started',
+    LOGIN_FUNCTION_COMPLETED: 'Login function completed',
+    LOGIN_FUNCTION_FAILED: 'Login function failed',
+    USER_CREATE_FUNCTION_STARTED: 'Login create function started',
+    USER_CREATE_FUNCTION_COMPLETED: 'Login create function completed',
+    USER_CREATE_FUNCTION_FAILED: 'Login create function failed',
+    COMPANY_CREATE_FUNCTION_STARTED: 'Company create function started',
+    COMPANY_CREATE_FUNCTION_COMPLETED: 'Company create function completed',
+    COMPANY_CREATE_FUNCTION_FAILED: 'Company create function failed',
+    SUPERADMIN_CREATED_SUCCESSFULLY: "Super admin created successfully.",
+    COMPANY_CREATED_SUCCESSFULLY: 'Company and admin setup completed successfully',
+    COMPANY_UPDATED_SUCCESSFULLY: 'Company and admin updated successfully',
+    COMPANY_ID_REQUIRED: 'Company ID is required',
+    COMPANY_SOFT_DELETED: 'Company deleted successfully',
+    ERROR_DELETE: 'Error while deleting the record',
+    COMPANY_FETCH_SUCCESSFULLY: 'Company retrieved successfully',
+    TODO_CREATED_SUCCESSFULLY: 'Todo created successfully',
+    TODO_UPDATED_SUCCESSFULLY: 'Todo updated successfully',
+};

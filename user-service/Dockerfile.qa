@@ -1,0 +1,22 @@
+FROM node:23-alpine
+
+# Install Git, bash, Tini, and any build tools if needed
+RUN apk add --no-cache git bash tini
+
+WORKDIR /usr/src/app
+
+# Install Chrome
+RUN apk add --no-cache chromium
+
+
+# Install ts-node-dev globally (optional if you prefer local devDep)
+COPY package*.json tsconfig*.json ./
+RUN npm install
+
+COPY . .
+
+ENV NODE_ENV=qa
+EXPOSE 6001
+
+ENTRYPOINT ["/sbin/tini", "--"]
+CMD ["npm", "run", "dev"]

@@ -1,0 +1,432 @@
+_format_version: "3.0"
+
+consumers:
+  - username: fusion_consumer
+    custom_id: fusion_consumer
+
+jwt_secrets:
+  - consumer: fusion_consumer
+    key: fusion_consumer
+    algorithm: HS256
+    secret: 98893a20fb8704f38367e2e70ae2c80a7dc13843f1890c751228d9abf5f02421
+
+services:
+  - name: user-service
+    url: http://host.docker.internal:5001
+    routes:
+      - name: user-public-route
+        paths:
+          - /user/public
+        methods: [GET, POST, OPTIONS]
+        strip_path: true
+        plugins:
+          - name: cors
+            config:
+              origins:
+                - "https://*.dreamstechnologies.com"
+              methods: [GET, POST, OPTIONS]
+              headers: [Authorization, Content-Type, Accept, Origin]
+              exposed_headers: [Authorization]
+              credentials: true
+              max_age: 3600
+          - name: rate-limiting
+            config:
+              minute: 100
+              policy: local
+              limit_by: consumer
+              fault_tolerant: true
+
+      - name: user-secure-route
+        paths:
+          - /user
+        methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
+        strip_path: true
+        plugins:
+          - name: jwt
+            config:
+              run_on_preflight: true
+              claims_to_verify: [exp]
+              maximum_expiration: 7200
+          - name: cors
+            config:
+              origins:
+                - "https://*.dreamstechnologies.com"
+              methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
+              headers: [Authorization, Content-Type, Accept, Origin]
+              exposed_headers: [Authorization]
+              credentials: true
+              max_age: 3600
+          - name: rate-limiting
+            config:
+              minute: 100
+              policy: local
+              limit_by: consumer
+              fault_tolerant: true
+
+  - name: email-service
+    url: http://host.docker.internal:5002
+    routes:
+      - name: email-public-route
+        paths:
+          - /email/public
+        methods: [GET, POST, OPTIONS]
+        strip_path: true
+        plugins:
+          - name: cors
+            config:
+              origins:
+                - "https://*.dreamstechnologies.com"
+              methods: [GET, OPTIONS]
+              headers: [Authorization, Content-Type, Accept, Origin]
+              exposed_headers: [Authorization]
+              credentials: true
+              max_age: 3600
+          - name: rate-limiting
+            config:
+              minute: 100
+              policy: local
+              limit_by: consumer
+              fault_tolerant: true
+
+      - name: email-secure-route
+        paths:
+          - /email
+        methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
+        strip_path: true
+        plugins:
+          - name: jwt
+            config:
+              run_on_preflight: true
+              claims_to_verify: [exp]
+              maximum_expiration: 7200
+          - name: cors
+            config:
+              origins:
+                - "https://*.dreamstechnologies.com"
+              methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
+              headers: [Authorization, Content-Type, Accept, Origin]
+              exposed_headers: [Authorization]
+              credentials: true
+              max_age: 3600
+          - name: rate-limiting
+            config:
+              minute: 100
+              policy: local
+              limit_by: consumer
+              fault_tolerant: true
+
+  - name: subscription-service
+    url: http://host.docker.internal:5003
+    routes:
+      - name: subscription-public-route
+        paths:
+          - /subscription/public
+        methods: [GET, POST, OPTIONS]
+        strip_path: true
+        plugins:
+          - name: cors
+            config:
+              origins:
+                - "https://*.dreamstechnologies.com"
+              methods: [GET, POST, OPTIONS]
+              headers: [Authorization, Content-Type, Accept, Origin]
+              exposed_headers: [Authorization]
+              credentials: true
+              max_age: 3600
+          - name: rate-limiting
+            config:
+              minute: 100
+              policy: local
+              limit_by: consumer
+              fault_tolerant: true
+
+      - name: subscription-secure-route
+        paths:
+          - /subscription
+        methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
+        strip_path: true
+        plugins:
+          - name: jwt
+            config:
+              run_on_preflight: true
+              claims_to_verify: [exp]
+              maximum_expiration: 7200
+          - name: cors
+            config:
+              origins:
+                - "https://*.dreamstechnologies.com"
+              methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
+              headers: [Authorization, Content-Type, Accept, Origin]
+              exposed_headers: [Authorization]
+              credentials: true
+              max_age: 3600
+          - name: rate-limiting
+            config:
+              minute: 100
+              policy: local
+              limit_by: consumer
+              fault_tolerant: true
+  - name: people-service
+    url: http://host.docker.internal:5004
+    routes:
+      - name: people-public-route
+        paths:
+          - /people/public
+        methods: [GET, POST, OPTIONS]
+        strip_path: true
+        plugins:
+          - name: cors
+            config:
+              origins:
+                - "https://*.dreamstechnologies.com"
+              methods: [GET, POST, OPTIONS]
+              headers: [Authorization, Content-Type, Accept, Origin]
+              exposed_headers: [Authorization]
+              credentials: true
+              max_age: 3600
+          - name: rate-limiting
+            config:
+              minute: 100
+              policy: local
+              limit_by: consumer
+              fault_tolerant: true
+      - name: people-secure-route
+        paths:
+          - /people
+        methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
+        strip_path: true
+        plugins:
+          - name: jwt
+            config:
+              run_on_preflight: true
+              claims_to_verify: [exp]
+              maximum_expiration: 7200
+          - name: cors
+            config:
+              origins:
+                - "https://*.dreamstechnologies.com"
+              methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
+              headers: [Authorization, Content-Type, Accept, Origin]
+              exposed_headers: [Authorization]
+              credentials: true
+              max_age: 3600
+          - name: rate-limiting
+            config:
+              minute: 100
+              policy: local
+              limit_by: consumer
+              fault_tolerant: true
+
+  - name: application-service
+    url: http://host.docker.internal:5005
+    routes:
+      - name: application-public-route
+        paths:
+          - /application/public
+        methods: [GET, POST, OPTIONS]
+        strip_path: true
+        plugins:
+          - name: cors
+            config:
+              origins:
+                - "https://*.dreamstechnologies.com"
+              methods: [GET, POST, OPTIONS]
+              headers: [Authorization, Content-Type, Accept, Origin]
+              exposed_headers: [Authorization]
+              credentials: true
+              max_age: 3600
+          - name: rate-limiting
+            config:
+              minute: 100
+              policy: local
+              limit_by: consumer
+              fault_tolerant: true
+      - name: application-secure-route
+        paths:
+          - /application
+        methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
+        strip_path: true
+        plugins:
+          - name: jwt
+            config:
+              run_on_preflight: true
+              claims_to_verify: [exp]
+              maximum_expiration: 7200
+          - name: cors
+            config:
+              origins:
+                - "https://*.dreamstechnologies.com"
+              methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
+              headers: [Authorization, Content-Type, Accept, Origin]
+              exposed_headers: [Authorization]
+              credentials: true
+              max_age: 3600
+          - name: rate-limiting
+            config:
+              minute: 100
+              policy: local
+              limit_by: consumer
+              fault_tolerant: true
+
+  - name: inventory-service
+    url: http://host.docker.internal:5006
+    routes:
+      - name: inventory-public-route
+        paths:
+          - /inventory/public
+        methods: [GET, POST, OPTIONS]
+        strip_path: true
+        plugins:
+          - name: cors
+            config:
+              origins:
+                - "https://*.dreamstechnologies.com"
+              methods: [GET, POST, OPTIONS]
+              headers: [Authorization, Content-Type, Accept, Origin]
+              exposed_headers: [Authorization]
+              credentials: true
+              max_age: 3600
+          - name: rate-limiting
+            config:
+              minute: 100
+              policy: local
+              limit_by: consumer
+              fault_tolerant: true
+
+      - name: inventory-secure-route
+        paths:
+          - /inventory
+        methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
+        strip_path: true
+        plugins:
+          - name: jwt
+            config:
+              run_on_preflight: true
+              claims_to_verify: [exp]
+              maximum_expiration: 7200
+          - name: cors
+            config:
+              origins:
+                - "https://*.dreamstechnologies.com"
+              methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
+              headers: [Authorization, Content-Type, Accept, Origin]
+              exposed_headers: [Authorization]
+              credentials: true
+              max_age: 3600
+          - name: rate-limiting
+            config:
+              minute: 100
+              policy: local
+              limit_by: consumer
+              fault_tolerant: true
+
+  - name: chat-service
+    url: http://host.docker.internal:5007
+    routes:
+      - name: chat-public-route
+        paths:
+          - /chat/public
+        methods: [GET, POST, OPTIONS]
+        strip_path: true
+        plugins:
+          - name: cors
+            config:
+              origins:
+                - "https://*.dreamstechnologies.com"
+              methods: [GET, POST, OPTIONS]
+              headers: [Authorization, Content-Type, Accept, Origin]
+              exposed_headers: [Authorization]
+              credentials: true
+              max_age: 3600
+          - name: rate-limiting
+            config:
+              minute: 100
+              policy: local
+              limit_by: consumer
+              fault_tolerant: true
+
+      - name: chat-websocket
+        protocols: ["http", "https"] # WebSocket only
+        paths:
+          - /socket.io # Standard Socket.IO path
+        strip_path: false
+        # NO JWT PLUGIN HERE
+
+      - name: chat-secure-route
+        paths:
+          - /chat
+        methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
+        strip_path: true
+        plugins:
+          - name: jwt
+            config:
+              run_on_preflight: true
+              claims_to_verify: [exp]
+              maximum_expiration: 7200
+          - name: cors
+            config:
+              origins:
+                - "https://*.dreamstechnologies.com"
+              methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
+              headers: [Authorization, Content-Type, Accept, Origin]
+              exposed_headers: [Authorization]
+              credentials: true
+              max_age: 3600
+          - name: rate-limiting
+            config:
+              minute: 100
+              policy: local
+              limit_by: consumer
+              fault_tolerant: true
+
+  - name: call-service
+    url: http://host.docker.internal:5008
+    routes:
+      - name: call-public-route
+        paths:
+          - /call/public
+        methods: [GET, POST, OPTIONS]
+        strip_path: true
+        plugins:
+          - name: cors
+            config:
+              origins:
+                - "https://*.dreamstechnologies.com"
+              methods: [GET, POST, OPTIONS]
+              headers: [Authorization, Content-Type, Accept, Origin]
+              exposed_headers: [Authorization]
+              credentials: true
+              max_age: 3600
+          - name: rate-limiting
+            config:
+              minute: 100
+              policy: local
+              limit_by: consumer
+              fault_tolerant: true
+
+      - name: call-secure-route
+        paths:
+          - /call
+        methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
+        strip_path: true
+        plugins:
+          - name: jwt
+            config:
+              run_on_preflight: true
+              claims_to_verify: [exp]
+              maximum_expiration: 7200
+          - name: cors
+            config:
+              origins:
+                - "https://*.dreamstechnologies.com"
+              methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
+              headers: [Authorization, Content-Type, Accept, Origin]
+              exposed_headers: [Authorization]
+              credentials: true
+              max_age: 3600
+          - name: rate-limiting
+            config:
+              minute: 100
+              policy: local
+              limit_by: consumer
+              fault_tolerant: true

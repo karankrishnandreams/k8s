@@ -1,0 +1,116 @@
+[
+  {
+    "name": "Dashboard",
+    "key_value": "dashboard",
+    "domain": "Reports",
+    "permission": { "read": false, "write": false, "create": false, "delete": false, "import": false, "export": false }
+  },
+  {
+    "name": "Users",
+    "key_value": "users",
+    "domain": "HR Management",
+    "permission": { "read": false, "write": false, "create": false, "delete": false, "import": false, "export": false }
+  },
+  {
+    "name": "Ticketing",
+    "key_value": "ticketing",
+    "domain": "Ticketing",
+    "permission": { "read": false, "write": false, "create": false, "delete": false, "import": false, "export": false }
+  },
+  {
+    "name": "Customers",
+    "key_value": "customers",
+    "domain": "Inventory Module",
+    "permission": { "read": false, "write": false, "create": false, "delete": false, "import": false, "export": false }
+  },
+  {
+    "name": "Notes",
+    "key_value": "notes",
+    "domain": "Communication Module",
+    "permission": { "read": false, "write": false, "create": false, "delete": false, "import": false, "export": false }
+  },
+  {
+    "name": "Employee",
+    "key_value": "employee",
+    "domain": "HR Management",
+    "permission": { "read": false, "write": false, "create": false, "delete": false, "import": false, "export": false }
+  },
+  {
+    "name": "Manufacturer",
+    "key_value": "manufacturer",
+    "domain": "Inventory Module",
+    "permission": { "read": false, "write": false, "create": false, "delete": false, "import": false, "export": false }
+  },
+  {
+    "name": "Category",
+    "key_value": "category",
+    "domain": "Inventory Module",
+    "permission": { "read": false, "write": false, "create": false, "delete": false, "import": false, "export": false }
+  },
+  {
+    "name": "Warehouse",
+    "key_value": "warehouse",
+    "domain": "Inventory Module",
+    "permission": { "read": false, "write": false, "create": false, "delete": false, "import": false, "export": false }
+  },
+  {
+    "name": "SKU",
+    "key_value": "sku",
+    "domain": "Inventory Module",
+    "permission": { "read": false, "write": false, "create": false, "delete": false, "import": false, "export": false }
+  },
+  {
+    "name": "Chat",
+    "key_value": "chat",
+    "domain": "Communication Module",
+    "permission": { "read": false, "write": false, "create": false, "delete": false, "import": false, "export": false }
+  },
+  {
+    "name": "Calendar",
+    "key_value": "calendar",
+    "domain": "Communication Module",
+    "permission": { "read": false, "write": false, "create": false, "delete": false, "import": false, "export": false }
+  },
+  {
+    "name": "Security settings",
+    "key_value": "securitysettings",
+    "domain": "Compliance Management",
+    "permission": { "read": false, "write": false, "create": false, "delete": false, "import": false, "export": false }
+  },
+  {
+    "name": "General settings",
+    "key_value": "generalsettings",
+    "domain": "Compliance Management",
+    "permission": { "read": false, "write": false, "create": false, "delete": false, "import": false, "export": false }
+  },
+  {
+    "name": "Roles",
+    "key_value": "roles",
+    "domain": "Compliance Management",
+    "permission": { "read": false, "write": false, "create": false, "delete": false, "import": false, "export": false }
+  },
+  {
+    "name": "Item",
+    "key_value": "item",
+    "domain": "Inventory Module",
+    "permission": { "read": false, "write": false, "create": false, "delete": false, "import": false, "export": false }
+  },
+  {
+    "name": "Purchasepos",
+    "key_value": "purchasepos",
+    "domain": "Inventory Module",
+    "permission": { "read": false, "write": false, "create": false, "delete": false, "import": false, "export": false }
+  },
+  {
+    "name": "Email",
+    "key_value": "email",
+    "domain": "Communication Module",
+    "permission": { "read": false, "write": false, "create": false, "delete": false, "import": false, "export": false }
+  },
+  {
+    "name": "Purchase settings",
+    "key_value": "purchasesettings",
+    "domain": "Accounting Module",
+    "permission": { "read": false, "write": false, "create": false, "delete": false, "import": false, "export": false }
+  }
+]

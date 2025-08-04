@@ -1,0 +1,190 @@
+_format_version: "3.0"
+
+consumers:
+  - username: fusion_consumer
+    custom_id: fusion_consumer
+
+jwt_secrets:
+  - consumer: fusion_consumer
+    key: fusion_consumer
+    algorithm: HS256
+    secret: 98893a20fb8704f38367e2e70ae2c80a7dc13843f1890c751228d9abf5f02421
+
+services:
+  - name: qa-user-service
+    url: http://host.docker.internal:6001
+    routes:
+      - name: user-public-route
+        paths:
+          - /user/public
+        methods: [GET, POST, OPTIONS]
+        strip_path: true
+
+      - name: user-secure-route-qa
+        paths:
+          - /user
+        methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
+        strip_path: true
+        plugins:
+          - name: jwt
+            config:
+              run_on_preflight: true
+              claims_to_verify: [exp]
+              maximum_expiration: 7200
+
+  - name: qa-email-service
+    url: http://host.docker.internal:6002
+    routes:
+      - name: email-public-route
+        paths:
+          - /email/public
+        methods: [GET, POST, OPTIONS]
+        strip_path: true
+
+      - name: email-secure-route-qa
+        paths:
+          - /email
+        methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
+        strip_path: true
+        plugins:
+          - name: jwt
+            config:
+              run_on_preflight: true
+              claims_to_verify: [exp]
+              maximum_expiration: 7200
+
+  - name: qa-subscription-service
+    url: http://host.docker.internal:6003
+    routes:
+      - name: subscription-public-route
+        paths:
+          - /subscription/public
+        methods: [GET, POST, OPTIONS]
+        strip_path: true
+
+      - name: subscription-secure-route-qa
+        paths:
+          - /subscription
+        methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
+        strip_path: true
+        plugins:
+          - name: jwt
+            config:
+              run_on_preflight: true
+              claims_to_verify: [exp]
+              maximum_expiration: 7200
+
+  - name: qa-people-service
+    url: http://host.docker.internal:6004
+    routes:
+      - name: people-public-route
+        paths:
+          - /people/public
+        methods: [GET, POST, OPTIONS]
+        strip_path: true
+
+      - name: people-secure-route-qa
+        paths:
+          - /people
+        methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
+        strip_path: true
+        plugins:
+          - name: jwt
+            config:
+              run_on_preflight: true
+              claims_to_verify: [exp]
+              maximum_expiration: 7200
+
+  - name: qa-application-service
+    url: http://host.docker.internal:6005
+    routes:
+      - name: application-public-route
+        paths:
+          - /application/public
+        methods: [GET, POST, OPTIONS]
+        strip_path: true
+
+      - name: application-secure-route
+        paths:
+          - /application
+        methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
+        strip_path: true
+        plugins:
+          - name: jwt
+            config:
+              run_on_preflight: true
+              claims_to_verify: [exp]
+              maximum_expiration: 7200
+
+  - name: qa-inventory-service
+    url: http://host.docker.internal:6006
+    routes:
+      - name: inventory-public-route
+        paths:
+          - /inventory/public
+        methods: [GET, POST, OPTIONS]
+        strip_path: true
+
+      - name: inventory-secure-route-qa
+        paths:
+          - /inventory
+        methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
+        strip_path: true
+        plugins:
+          - name: jwt
+            config:
+              run_on_preflight: true
+              claims_to_verify: [exp]
+              maximum_expiration: 7200
+
+  - name: qa-chat-service
+    url: http://host.docker.internal:6007
+    routes:
+      - name: chat-public-route
+        paths:
+          - /chat/public
+        methods: [GET]
+        strip_path: true
+
+      - name: chat-websocket-qa
+        protocols: ["http", "https"]
+        paths: [/socket.io]
+        strip_path: false
+
+      - name: chat-secure-route
+        paths:
+          - /chat
+        methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
+        strip_path: true
+        plugins:
+          - name: jwt
+            config:
+              run_on_preflight: true
+              claims_to_verify: [exp]
+              maximum_expiration: 7200
+
+  - name: qa-call-service
+    url: http://host.docker.internal:6008
+    routes:
+      - name: call-public-route
+        paths:
+          - /call/public
+        methods: [GET]
+        strip_path: true
+
+      - name: call-websocket-qa
+        protocols: ["http", "https"]
+        paths: [/socket.io]
+        strip_path: false
+
+      - name: call-secure-route
+        paths:
+          - /call
+        methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
+        strip_path: true
+        plugins:
+          - name: jwt
+            config:
+              run_on_preflight: true
+              claims_to_verify: [exp]
+              maximum_expiration: 7200

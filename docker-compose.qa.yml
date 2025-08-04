@@ -1,0 +1,185 @@
+version: "3.8"
+
+services:
+  qa-kong-db:
+    image: postgres:9.6
+    container_name: qa-kong-db
+    restart: always
+    environment:
+      POSTGRES_DB: fusion_master
+      POSTGRES_USER: kong
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD} # pulled from .env.qa
+    volumes:
+      - qa-kong-db-data:/var/lib/postgresql/data
+
+  qa-kong:
+    image: kong:3.6
+    container_name: qa-kong
+    environment:
+      KONG_DATABASE: off
+      KONG_DECLARATIVE_CONFIG: /kong/kong.qa.yml
+      KONG_PROXY_ACCESS_LOG: /dev/stdout
+      KONG_ADMIN_ACCESS_LOG: /dev/stdout
+      KONG_PROXY_ERROR_LOG: /dev/stderr
+      KONG_ADMIN_ERROR_LOG: /dev/stderr
+      KONG_ADMIN_LISTEN: 0.0.0.0:18001, 0.0.0.0:18444 ssl
+    ports:
+      - "18000:8000"
+      - "18001:8001"
+      - "18444:8444"
+      - "18002:8002"
+      - "18443:8443"
+    volumes:
+      - ./kong/${KONG_DECLARATIVE_CONFIG:-qa-kong.yml}:/kong/kong.qa.yml
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  qa-konga:
+    image: pantsel/konga:0.14.9
+    container_name: qa-konga
+    restart: always
+    ports:
+      - "11337:1337"
+    environment:
+      DB_ADAPTER: postgres
+      DB_HOST: qa-kong-db
+      DB_PORT: 5432
+      DB_USER: kong
+      DB_PASSWORD: ${DB_PASSWORD} # from .env.qa
+      DB_DATABASE: fusion_master
+      NODE_ENV: production
+    depends_on:
+      - qa-kong
+      - qa-kong-db
+
+  # Your QA microservices, each uses env_file: .env.qa
+  qa-user-service:
+    build:
+      context: ./user-service
+      dockerfile: ${DOCKERFILE:-Dockerfile.qa}
+    container_name: qa-fusion-user-service
+    restart: always
+    ports:
+      - "${USER_SERVICE_PORT}:${USER_SERVICE_PORT}"
+    env_file:
+      - .env.qa
+    volumes:
+      - ./user-service:/usr/src/app
+      - /usr/src/app/node_modules
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  qa-email-service:
+    build:
+      context: ./email-service
+      dockerfile: ${DOCKERFILE:-Dockerfile.qa}
+    container_name: qa-fusion-email-service
+    restart: always
+    ports:
+      - "${EMAIL_SERVICE_PORT}:${EMAIL_SERVICE_PORT}"
+    env_file:
+      - .env.qa
+    volumes:
+      - ./email-service:/usr/src/app
+      - /usr/src/app/node_modules
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  qa-subscription-service:
+    build:
+      context: ./subscription-service
+      dockerfile: ${DOCKERFILE:-Dockerfile.qa}
+    container_name: qa-fusion-subscription-service
+    restart: always
+    ports:
+      - "${SUBSCRIPTION_SERVICE_PORT}:${SUBSCRIPTION_SERVICE_PORT}"
+    env_file:
+      - .env.qa
+    volumes:
+      - ./subscription-service:/usr/src/app
+      - /usr/src/app/node_modules
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  qa-people-service:
+    build:
+      context: ./people-service
+      dockerfile: ${DOCKERFILE:-Dockerfile.qa}
+    container_name: qa-fusion-people-service
+    restart: always
+    ports:
+      - "${PEOPLE_SERVICE_PORT}:${PEOPLE_SERVICE_PORT}"
+    env_file:
+      - .env.qa
+    volumes:
+      - ./people-service:/usr/src/app
+      - /usr/src/app/node_modules
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  qa-application-service:
+    build:
+      context: ./application-service
+      dockerfile: ${DOCKERFILE:-Dockerfile.qa}
+    container_name: qa-fusion-application-service
+    restart: always
+    ports:
+      - "${APPLICATION_SERVICE_PORT}:${APPLICATION_SERVICE_PORT}"
+    env_file:
+      - .env.qa
+    volumes:
+      - ./application-service:/usr/src/app
+      - /usr/src/app/node_modules
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  qa-inventory-service:
+    build:
+      context: ./inventory-service
+      dockerfile: ${DOCKERFILE:-Dockerfile.qa}
+    container_name: qa-fusion-inventory-service
+    restart: always
+    ports:
+      - "${INVENTORY_SERVICE_PORT}:${INVENTORY_SERVICE_PORT}"
+    env_file:
+      - .env.qa
+    volumes:
+      - ./inventory-service:/usr/src/app
+      - /usr/src/app/node_modules
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  qa-chat-service:
+    build:
+      context: ./chat-service
+      dockerfile: ${DOCKERFILE:-Dockerfile.qa}
+    container_name: qa-fusion-chat-service
+    restart: always
+    ports:
+      - "${CHAT_SERVICE_PORT}:${CHAT_SERVICE_PORT}"
+    env_file:
+      - .env.qa
+    volumes:
+      - ./chat-service:/usr/src/app
+      - /usr/src/app/node_modules
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  qa-call-service:
+    build:
+      context: ./call-service
+      dockerfile: ${DOCKERFILE:-Dockerfile.qa}
+    container_name: qa-fusion-call-service
+    restart: always
+    ports:
+      - "${CALL_SERVICE_PORT}:${CALL_SERVICE_PORT}"
+    env_file:
+      - .env.qa
+    volumes:
+      - ./call-service:/usr/src/app
+      - /usr/src/app/node_modules
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+volumes:
+  qa-kong-db-data:
