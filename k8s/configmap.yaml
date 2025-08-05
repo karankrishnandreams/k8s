@@ -1,0 +1,71 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fusion-config
+  namespace: fusion
+data:
+  # Shared
+  NODE_ENV: "development"
+  DOCKERFILE: "Dockerfile.dev"
+  KONG_DECLARATIVE_CONFIG: "kong.dev.yml"
+  
+  # Service Names
+  USERSERVICE_NAME: "User Service"
+  EMAILSERVICE_NAME: "Email Service"
+  SUBSCRIPTIONSERVICE_NAME: "Subscription Service"
+  PEOPLESERVICE_NAME: "People Service"
+  APPLICATIONSERVICE_NAME: "Application Service"
+  INVENTORYSERVICE_NAME: "Inventory Service"
+  CHATSERVICE_NAME: "Chat Service"
+  CALLSERVICE_NAME: "Call Service"
+  
+  # Ports
+  USER_SERVICE_PORT: "5001"
+  EMAIL_SERVICE_PORT: "5002"
+  SUBSCRIPTION_SERVICE_PORT: "5003"
+  PEOPLE_SERVICE_PORT: "5004"
+  APPLICATION_SERVICE_PORT: "5005"
+  INVENTORY_SERVICE_PORT: "5006"
+  CHAT_SERVICE_PORT: "5007"
+  CALL_SERVICE_PORT: "5008"
+  
+  # JWT Configuration
+  JWT_EXPIRES_IN: "2h"
+  REFRESH_TOKEN_EXPIRES_IN: "7d"
+  
+  # MongoDB Configuration
+  MONGO_HOST: "20.26.124.89"
+  MONGO_PORT: "27018"
+  MONGODB_URI: "mongodb://20.26.124.89:27018/fusion_main_dev?authSource=admin"
+  
+  # Database Configuration
+  POSTGRES_PASSWORD: "kong"
+  KONG_PG_PASSWORD: "kong"
+  DB_PASSWORD: "kong"
+  KONG_BASE_URL: "http://kong:8000"
+  
+  # Service Configuration
+  SERVICE_TIMEOUT: "5000"
+  DB_SUFFIX: "_tenant_dev"
+  
+  # Super Admin
+  FIRSTNAME: "Super"
+  LASTNAME: "Admin"
+  EMAIL: "superadmin@yopmail.com"
+  ROLE: "super_admin"
+  DB_NAME: "fusion_main_dev"
+  
+  # Socket IO
+  SOCKET_PORT: "5007"
+  ENCRYPT_MESSAGES: "false"
+  
+  # Frontend
+  FRONT_END_URL: "fusion.dreamstechnologies.com"
+  
+  # Currency Conversion
+  CURRENCY_BASE_URL: "https://open.er-api.com/v6/latest"
+  
+  # Twilio Configuration
+  TWILIO_NUMBER: "+15065264023"
+  BASE_URL: "https://fusion-api.dreamstechnologies.com"
+  TWIML_APP_SID: "APcd205aa8f868bfdc90daa5419e6f726e"

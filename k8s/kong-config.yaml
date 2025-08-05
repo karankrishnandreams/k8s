@@ -1,0 +1,395 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kong-config
+  namespace: fusion
+data:
+  kong.yml: |
+    _format_version: "3.0"
+
+    consumers:
+      - username: fusion_consumer
+        custom_id: fusion_consumer
+
+    jwt_secrets:
+      - consumer: fusion_consumer
+        key: fusion_consumer
+        algorithm: HS256
+        secret: 98893a20fb8704f38367e2e70ae2c80a7dc13843f1890c751228d9abf5f02421
+
+    services:
+      - name: user-service
+        url: http://user-service:5001
+        routes:
+          - name: user-public-route
+            paths:
+              - /user/public
+            methods: [GET, POST, PUT, OPTIONS]
+            strip_path: true
+            plugins:
+              - name: cors
+                config:
+                  origins:
+                    - "http://localhost:3001"
+                    - "http://localhost:3000"
+                    - "https://*.dreamstechnologies.com"
+                    - "http://*.localhost.com"
+                    - "http://localhost.com"
+                  methods: [GET, POST, PUT, OPTIONS]
+                  headers: [Authorization, Content-Type, Accept, Origin]
+                  exposed_headers: [Authorization]
+                  credentials: true
+                  max_age: 3600
+          - name: user-secure-route
+            paths:
+              - /user
+            methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
+            strip_path: true
+            plugins:
+              - name: jwt
+                config:
+                  run_on_preflight: true
+                  claims_to_verify: [exp]
+                  maximum_expiration: 7200
+              - name: cors
+                config:
+                  origins:
+                    - "http://localhost:3001"
+                    - "http://localhost:3000"
+                    - "https://*.dreamstechnologies.com"
+                    - "http://*.localhost.com"
+                    - "http://localhost.com"
+                  methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
+                  headers: [Authorization, Content-Type, Accept, Origin]
+                  exposed_headers: [Authorization]
+                  credentials: true
+                  max_age: 3600
+
+      - name: email-service
+        url: http://email-service:5002
+        routes:
+          - name: email-public-route
+            paths:
+              - /email/public
+            methods: [GET, PUT, POST, OPTIONS]
+            strip_path: true
+            plugins:
+              - name: cors
+                config:
+                  origins:
+                    - "http://localhost:3001"
+                    - "http://localhost:3000"
+                    - "https://*.dreamstechnologies.com"
+                    - "http://*.localhost.com"
+                    - "http://localhost.com"
+                  methods: [GET, POST, PUT, OPTIONS]
+                  headers: [Authorization, Content-Type, Accept, Origin]
+                  exposed_headers: [Authorization]
+                  credentials: true
+                  max_age: 3600
+          - name: email-secure-route
+            paths:
+              - /email
+            methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
+            strip_path: true
+            plugins:
+              - name: jwt
+                config:
+                  run_on_preflight: true
+                  claims_to_verify: [exp]
+                  maximum_expiration: 7200
+              - name: cors
+                config:
+                  origins:
+                    - "http://localhost:3001"
+                    - "http://localhost:3000"
+                    - "https://*.dreamstechnologies.com"
+                    - "http://*.localhost.com"
+                    - "http://localhost.com"
+                  methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
+                  headers: [Authorization, Content-Type, Accept, Origin]
+                  exposed_headers: [Authorization]
+                  credentials: true
+                  max_age: 3600
+
+      - name: subscription-service
+        url: http://subscription-service:5003
+        routes:
+          - name: subscription-public-route
+            paths:
+              - /subscription/public
+            methods: [GET, PUT, POST, OPTIONS]
+            strip_path: true
+            plugins:
+              - name: cors
+                config:
+                  origins:
+                    - "http://localhost:3001"
+                    - "http://localhost:3000"
+                    - "https://*.dreamstechnologies.com"
+                    - "http://*.localhost.com"
+                    - "http://localhost.com"
+                  methods: [GET, POST, PUT, OPTIONS]
+                  headers: [Authorization, Content-Type, Accept, Origin]
+                  exposed_headers: [Authorization]
+                  credentials: true
+                  max_age: 3600
+          - name: subscription-secure-route
+            paths:
+              - /subscription
+            methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
+            strip_path: true
+            plugins:
+              - name: jwt
+                config:
+                  run_on_preflight: true
+                  claims_to_verify: [exp]
+                  maximum_expiration: 7200
+              - name: cors
+                config:
+                  origins:
+                    - "http://localhost:3001"
+                    - "http://localhost:3000"
+                    - "https://*.dreamstechnologies.com"
+                    - "http://*.localhost.com"
+                    - "http://localhost.com"
+                  methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
+                  headers: [Authorization, Content-Type, Accept, Origin]
+                  exposed_headers: [Authorization]
+                  credentials: true
+                  max_age: 3600
+
+      - name: people-service
+        url: http://people-service:5004
+        routes:
+          - name: people-public-route
+            paths:
+              - /people/public
+            methods: [GET, PUT, POST, OPTIONS]
+            strip_path: true
+            plugins:
+              - name: cors
+                config:
+                  origins:
+                    - "http://localhost:3001"
+                    - "http://localhost:3000"
+                    - "https://*.dreamstechnologies.com"
+                    - "http://*.localhost.com"
+                    - "http://localhost.com"
+                  methods: [GET, POST, PUT, OPTIONS]
+                  headers: [Authorization, Content-Type, Accept, Origin]
+                  exposed_headers: [Authorization]
+                  credentials: true
+                  max_age: 3600
+          - name: people-secure-route
+            paths:
+              - /people
+            methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
+            strip_path: true
+            plugins:
+              - name: jwt
+                config:
+                  run_on_preflight: true
+                  claims_to_verify: [exp]
+                  maximum_expiration: 7200
+              - name: cors
+                config:
+                  origins:
+                    - "http://localhost:3001"
+                    - "http://localhost:3000"
+                    - "https://*.dreamstechnologies.com"
+                    - "http://*.localhost.com"
+                    - "http://localhost.com"
+                  methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
+                  headers: [Authorization, Content-Type, Accept, Origin]
+                  exposed_headers: [Authorization]
+                  credentials: true
+                  max_age: 3600
+
+      - name: application-service
+        url: http://application-service:5005
+        routes:
+          - name: application-public-route
+            paths:
+              - /application/public
+            methods: [GET, PUT, POST, OPTIONS]
+            strip_path: true
+            plugins:
+              - name: cors
+                config:
+                  origins:
+                    - "http://localhost:3001"
+                    - "http://localhost:3000"
+                    - "https://*.dreamstechnologies.com"
+                    - "http://*.localhost.com"
+                    - "http://localhost.com"
+                  methods: [GET, POST, PUT, OPTIONS]
+                  headers: [Authorization, Content-Type, Accept, Origin]
+                  exposed_headers: [Authorization]
+                  credentials: true
+                  max_age: 3600
+          - name: application-secure-route
+            paths:
+              - /application
+            methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
+            strip_path: true
+            plugins:
+              - name: jwt
+                config:
+                  run_on_preflight: true
+                  claims_to_verify: [exp]
+                  maximum_expiration: 7200
+              - name: cors
+                config:
+                  origins:
+                    - "http://localhost:3001"
+                    - "http://localhost:3000"
+                    - "https://*.dreamstechnologies.com"
+                    - "http://*.localhost.com"
+                    - "http://localhost.com"
+                  methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
+                  headers: [Authorization, Content-Type, Accept, Origin]
+                  exposed_headers: [Authorization]
+                  credentials: true
+                  max_age: 3600
+
+      - name: inventory-service
+        url: http://inventory-service:5006
+        routes:
+          - name: inventory-public-route
+            paths:
+              - /inventory/public
+            methods: [GET, PUT, POST, OPTIONS]
+            strip_path: true
+            plugins:
+              - name: cors
+                config:
+                  origins:
+                    - "http://localhost:3001"
+                    - "http://localhost:3000"
+                    - "https://*.dreamstechnologies.com"
+                    - "http://*.localhost.com"
+                    - "http://localhost.com"
+                  methods: [GET, POST, PUT, OPTIONS]
+                  headers: [Authorization, Content-Type, Accept, Origin]
+                  exposed_headers: [Authorization]
+                  credentials: true
+                  max_age: 3600
+          - name: inventory-secure-route
+            paths:
+              - /inventory
+            methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
+            strip_path: true
+            plugins:
+              - name: jwt
+                config:
+                  run_on_preflight: true
+                  claims_to_verify: [exp]
+                  maximum_expiration: 7200
+              - name: cors
+                config:
+                  origins:
+                    - "http://localhost:3001"
+                    - "http://localhost:3000"
+                    - "https://*.dreamstechnologies.com"
+                    - "http://*.localhost.com"
+                    - "http://localhost.com"
+                  methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
+                  headers: [Authorization, Content-Type, Accept, Origin]
+                  exposed_headers: [Authorization]
+                  credentials: true
+                  max_age: 3600
+
+      - name: chat-service
+        url: http://chat-service:5007
+        routes:
+          - name: chat-public-route
+            paths:
+              - /chat/public
+            methods: [GET, PUT, POST, OPTIONS]
+            strip_path: true
+            plugins:
+              - name: cors
+                config:
+                  origins:
+                    - "http://localhost:3001"
+                    - "http://localhost:3000"
+                    - "https://*.dreamstechnologies.com"
+                    - "http://*.localhost.com"
+                    - "http://localhost.com"
+                  methods: [GET, POST, PUT, OPTIONS]
+                  headers: [Authorization, Content-Type, Accept, Origin]
+                  exposed_headers: [Authorization]
+                  credentials: true
+                  max_age: 3600
+          - name: chat-secure-route
+            paths:
+              - /chat
+            methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
+            strip_path: true
+            plugins:
+              - name: jwt
+                config:
+                  run_on_preflight: true
+                  claims_to_verify: [exp]
+                  maximum_expiration: 7200
+              - name: cors
+                config:
+                  origins:
+                    - "http://localhost:3001"
+                    - "http://localhost:3000"
+                    - "https://*.dreamstechnologies.com"
+                    - "http://*.localhost.com"
+                    - "http://localhost.com"
+                  methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
+                  headers: [Authorization, Content-Type, Accept, Origin]
+                  exposed_headers: [Authorization]
+                  credentials: true
+                  max_age: 3600
+
+      - name: call-service
+        url: http://call-service:5008
+        routes:
+          - name: call-public-route
+            paths:
+              - /call/public
+            methods: [GET, PUT, POST, OPTIONS]
+            strip_path: true
+            plugins:
+              - name: cors
+                config:
+                  origins:
+                    - "http://localhost:3001"
+                    - "http://localhost:3000"
+                    - "https://*.dreamstechnologies.com"
+                    - "http://*.localhost.com"
+                    - "http://localhost.com"
+                  methods: [GET, POST, PUT, OPTIONS]
+                  headers: [Authorization, Content-Type, Accept, Origin]
+                  exposed_headers: [Authorization]
+                  credentials: true
+                  max_age: 3600
+          - name: call-secure-route
+            paths:
+              - /call
+            methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
+            strip_path: true
+            plugins:
+              - name: jwt
+                config:
+                  run_on_preflight: true
+                  claims_to_verify: [exp]
+                  maximum_expiration: 7200
+              - name: cors
+                config:
+                  origins:
+                    - "http://localhost:3001"
+                    - "http://localhost:3000"
+                    - "https://*.dreamstechnologies.com"
+                    - "http://*.localhost.com"
+                    - "http://localhost.com"
+                  methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
+                  headers: [Authorization, Content-Type, Accept, Origin]
+                  exposed_headers: [Authorization]
+                  credentials: true
+                  max_age: 3600
